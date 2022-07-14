@@ -7,8 +7,20 @@ package builtins::compat;
 our $AUTHORITY = 'cpan:TOBYINK';
 our $VERSION   = '0.001';
 
+sub _true () {
+	!!1;
+}
+
+sub _false () {
+	!!0;
+}
+
+BEGIN {
+	*LEGACY_PERL = ( $] lt '5.036' ) ? \&_true : \&_false;
+};
+
 sub import {
-	goto \&import_compat if $] < 5.036;
+	goto \&import_compat if LEGACY_PERL;
 
 	'warnings'->unimport('experimental::builtin');
 	'builtin'->import( qw<
@@ -67,21 +79,13 @@ sub import_compat {
 	}
 }
 
-if ( $] < 5.36 ) {
+if ( LEGACY_PERL ) {
 	my $subs = __PACKAGE__->get_subs;
 	while ( my ( $name, $code ) = each %$subs ) {
 		no strict 'refs';
 		*{"builtin::$name"} = $code
 			unless exists &{"builtin::$name"};
 	}
-}
-
-sub _true () {
-	!!1;
-}
-
-sub _false () {
-	!!0;
 }
 
 sub _is_bool ($) {

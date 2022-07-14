@@ -4,6 +4,11 @@ use warnings;
 
 use builtins::compat ();
 
+BEGIN {
+	builtins::compat::LEGACY_PERL
+		or 'warnings'->unimport('experimental::builtin');
+};
+
 use Test::More;
 
 plan tests => 15;
