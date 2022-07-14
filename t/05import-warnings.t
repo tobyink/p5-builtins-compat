@@ -6,17 +6,17 @@ use Test::Warnings qw( :all );
 use builtins::compat ();
 
 do {
-	my $w = warning {
+	my $w = warnings {
 		eval q[ 'builtins::compat'->import( 'foobar' ); ]
 	};
-	like $w, qr/^"foobar" is not exported by the builtins::compat module/;
+	like $w->[0], qr/^"foobar" is not exported by the builtins::compat module/;
 };
 
 do {
-	my $w = warning {
+	my $w = warnings {
 		eval q[ 'builtins::compat'->import( ':foobar' ); ]
 	};
-	like $w, qr/^"foobar" is not defined in builtins::compat::EXPORT_TAGS/;
+	like $w->[0], qr/^"foobar" is not defined in builtins::compat::EXPORT_TAGS/;
 };
 
 done_testing;
