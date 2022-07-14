@@ -4,3 +4,11 @@
 	issued  2022-07-14;
 	label   "Initial release".
 
+`builtins-compat 0.002 cpan:TOBYINK`
+	issued  2022-07-14;
+	changeset [
+		item [
+			a dcs:Documentation, dcs:Packaging;
+			label "Fix link to issue tracker.";
+		];
+	].
