@@ -5,7 +5,7 @@ use warnings;
 package builtins::compat;
 
 our $AUTHORITY = 'cpan:TOBYINK';
-our $VERSION   = '0.002';
+our $VERSION   = '0.003';
 
 sub _true () {
 	!!1;

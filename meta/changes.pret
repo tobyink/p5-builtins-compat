@@ -12,3 +12,17 @@
 			label "Fix link to issue tracker.";
 		];
 	].
+
+`builtins-compat 0.003 cpan:TOBYINK`
+	issued  2022-07-14;
+	changeset [
+		item [
+			a dcs:Documentation;
+			label "Improved SYNOPSIS.";
+		];
+		item [
+			a dcs:Change;
+			label "Smarter import function allowing you to select which functions to import.";
+		];
+	].
+
