@@ -20,22 +20,54 @@ BEGIN {
 	*LEGACY_PERL = ( $] lt '5.036' ) ? \&_true : \&_false;
 };
 
+our %EXPORT_TAGS = (
+	'5.36' => [ qw<
+		true     false    is_bool
+		weaken   unweaken is_weak
+		blessed  refaddr  reftype
+		created_as_string created_as_number
+		ceil     floor    trim     indexed
+	> ],
+	'bool' => [ qw< true false is_bool > ],
+);
+
+sub parse_args {
+	my $class = shift;
+	my @args  = @_ ? @_ : ':5.36';
+
+	my $want  = {};
+	for my $arg ( @args ) {
+		if ( $arg =~ /^:(.+)/ ) {
+			my $tag = $1;
+			if ( not exists $EXPORT_TAGS{$tag} ) {
+				require Carp;
+				Carp::carp( qq["$tag" is not defined in $class\::EXPORT_TAGS] );
+			}
+			$want->{$_} = 1 for @{ $EXPORT_TAGS{$tag} or [] };
+		}
+		elsif ( $arg =~ /^\!(.+)/ ) {
+			my $unwanted = $1;
+			delete $want->{$_};
+		}
+		else {
+			$want->{$arg} = 1;
+		}
+	}
+
+	return $want;
+}
+
 sub import {
 	goto \&import_compat if LEGACY_PERL;
 
-	# uncoverable statement
-	'warnings'->unimport('experimental::builtin');
+	my $class = shift;
+	my %want  = %{ $class->parse_args( @_ ) };
 
 	# uncoverable statement
-	'builtin'->import( qw<
-		true false is_bool
-		weaken unweaken is_weak
-		blessed refaddr reftype
-		created_as_string created_as_number
-		ceil floor
-		trim
-		indexed
-	> );
+	'warnings'->unimport( 'experimental::builtin' ) if %want;
+
+	# uncoverable statement
+	'builtin'->import( keys %want );
 }
 
 sub import_compat {
@@ -43,16 +75,25 @@ sub import_compat {
 
 	my $caller = caller;
 	my $subs   = $class->get_subs;
+	my %want   = %{ $class->parse_args( @_ ) };
 
-	while ( my ( $name, $code ) = each %$subs ) {
-		no strict 'refs';
-		*{"$caller\::$name"} = $code;
+	for my $name ( sort keys %want ) {
+
+		if ( my $code = $subs->{$name} ) {
+			no strict 'refs';
+			*{"$caller\::$name"} = $code;
+		}
+		else {
+			require Carp;
+			Carp::carp( qq["$name" is not exported by the $class module] );
+			delete $want{$name}; # hide from namespace::clean
+		}
 	}
 
 	require namespace::clean;
 	'namespace::clean'->import(
 		-cleanee => $caller,
-		keys %$subs,
+		keys( %want ),
 	);
 }
 
@@ -182,6 +223,27 @@ and then clean them from your namespace using L<namespace::clean>.
 
 The pre-5.36 versions of C<created_as_number>, C<created_as_string>,
 and C<is_bool> may not be 100% perfect implementations.
+
+=head1 IMPORT
+
+To import the functions provided in Perl 5.36:
+
+  use builtins::compat qw( :5.36 );
+
+If future versions of Perl add more functions to L<builtin>, then these
+will be provided under different version number tags.
+
+Importing C<< use builtins::compat >> with no arguments will import
+the Perl 5.36 builtins, even if you're using a newer version of Perl.
+
+You can import only specific functions by listing their names:
+
+  use builtins::compat qw( refaddr reftype );
+
+You can exclude specific functions by name too. For all the Perl 5.36
+functions except C<indexed>:
+
+  use builtins::compat qw( :5.36 !indexed );
 
 =head1 BUGS
 
