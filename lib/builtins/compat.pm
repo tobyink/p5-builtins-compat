@@ -16,6 +16,7 @@ sub _false () {
 }
 
 BEGIN {
+	# uncoverable statement
 	*LEGACY_PERL = ( $] lt '5.036' ) ? \&_true : \&_false;
 };
 
