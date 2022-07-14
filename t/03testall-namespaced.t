@@ -19,8 +19,9 @@ ok builtin::true()                    => 'true()';
 ok !builtin::false()                  => '!false()';
 
 my @list = (1..3);
-is_deeply [builtin::indexed @list],
-          [0=>1,1=>2,2=>3]   => 'indexed()';
+is_deeply
+	[builtin::indexed @list],
+	[0=>1,1=>2,2=>3]   => 'indexed()';
 
 my $strong = [];
 my $weak   = $strong;
@@ -35,7 +36,7 @@ ok builtin::blessed($obj),            => 'blessed()';
 is builtin::refaddr($obj), 0+$obj     => 'refaddr()';
 is builtin::reftype($obj), 'HASH'     => 'reftype()';
 
-my $str = '	spacy!   ';
+my $str = "\tspacy!";
 my $PI =  3.1415926 ;
 ok builtin::created_as_string($str)    =>   'created_as_string()';
 ok builtin::created_as_number($PI)     =>   'created_as_number()';
