@@ -139,17 +139,17 @@ sub _is_bool ($) {
 	return _false unless defined $value;
 	return _false if ref $value;
 	return _false unless Scalar::Util::isdual( $value );
-	return !! (
-		( "$value" eq "1" or "$value" eq "" )
-		and ( $value+0 == 1 or $value+0 == 0 )
-	);
+	return _true if  $value && "$value" eq '1' && $value+0 == 1;
+	return _true if !$value && "$value" eq q'' && $value+0 == 0;
+	return _false;
 }
 
 sub _created_as_number ($) {
-	require B;
-
 	my $value = shift;
 
+	return _false if utf8::is_utf8($value);
+
+	require B;
 	my $b_obj = B::svref_2object(\$value);
 	my $flags = $b_obj->FLAGS;
 	return _true if $flags & ( B::SVp_IOK() | B::SVp_NOK() ) and !( $flags & B::SVp_POK() );
@@ -167,13 +167,13 @@ sub _created_as_string ($) {
 
 sub _indexed {
 	my $ix = 0;
-	return map { $ix++, $_ } @_;
+	return map +( $ix++, $_ ), @_;
 }
 
-sub _trim ($) {
+sub _trim {
 	my $value = shift;
 
-	$value =~ s{^\s+|\s+$}{}g;
+	$value =~ s{\A\s+|\s+\z}{}g;
 	return $value;
 }
 
