@@ -11,6 +11,9 @@ if ( builtins::compat::LEGACY_PERL ) {
 	};
 	like $w, qr/^"foobar" is not exported by the builtins::compat module/;
 }
+else {
+	pass "skipped test: Perl too new";
+}
 
 if ( builtins::compat::LEGACY_PERL ) {
 	my $w = warning {
@@ -18,7 +21,8 @@ if ( builtins::compat::LEGACY_PERL ) {
 	};
 	like $w, qr/^"foobar" is not defined in builtins::compat::EXPORT_TAGS/;
 }
-
-ok 1;
+else {
+	pass "skipped test: Perl too new";
+}
 
 done_testing;
