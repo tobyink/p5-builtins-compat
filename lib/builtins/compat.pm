@@ -186,7 +186,7 @@ and C<is_bool> may not be 100% perfect implementations.
 =head1 BUGS
 
 Please report any bugs to
-L<http://rt.cpan.org/Dist/Display.html?Queue=builtins-compat>.
+L<https://metacpan.org/release/builtins-compat/issues>.
 
 =head1 SEE ALSO
 
@@ -202,7 +202,6 @@ This software is copyright (c) 2022 by Toby Inkster.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
-
 
 =head1 DISCLAIMER OF WARRANTIES
 
