@@ -64,7 +64,7 @@ sub import {
 	my %want  = %{ $class->parse_args( @_ ) };
 
 	# uncoverable statement
-	'warnings'->unimport( 'experimental::builtin' ) if %want;
+	'warnings'->unimport( 'experimental::builtin' );
 
 	# uncoverable statement
 	'builtin'->import( keys %want );
