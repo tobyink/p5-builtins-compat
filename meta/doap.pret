@@ -7,7 +7,7 @@
 	:shortdesc            "install all the new builtins from the builtin namespace (Perl 5.36+), and try our best on older versions of Perl";
 	:homepage             <https://metacpan.org/release/builtins-compat>;
 	:download-page        <https://metacpan.org/release/builtins-compat>;
-	:bug-database         <https://metacpan.org/release/builtins-compat/issues>;
+	:bug-database         <https://github.com/tobyink/p5-builtins-compat/issues>;
 	:repository           [ a :GitRepository; :browse <https://github.com/tobyink/p5-builtins-compat> ];
 	:created              2022-07-14;
 	:license              <http://dev.perl.org/licenses/>;

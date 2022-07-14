@@ -186,7 +186,7 @@ and C<is_bool> may not be 100% perfect implementations.
 =head1 BUGS
 
 Please report any bugs to
-L<https://metacpan.org/release/builtins-compat/issues>.
+L<https://github.com/tobyink/p5-builtins-compat/issues>.
 
 =head1 SEE ALSO
 
