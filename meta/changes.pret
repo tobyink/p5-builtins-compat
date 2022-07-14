@@ -26,3 +26,16 @@
 		];
 	].
 
+`builtins-compat 0.004 cpan:TOBYINK`
+	issued  2022-07-14;
+	changeset [
+		item [
+			a dcs:Bugfix;
+			label "Minor fixes for created_as_number, bool, and trim.";
+		];
+		item [
+			a dcs:Change;
+			label "Minor speed improvement for indexed.";
+		];
+	].
+
