@@ -93,7 +93,7 @@ jobs:
           - { os: 'windows-latest', perl: '5.4' }
         include:
           - os: 'ubuntu-latest'
-            perl: '5.36'
+            perl: '5.32'
             threaded: false
             coverage: true
             extra_dependencies: true
