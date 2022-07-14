@@ -161,14 +161,14 @@ builtins::compat - install all the new builtins from the builtin namespace (Perl
 =head1 SYNOPSIS
 
   use 5.008001;          # Or later
-  use builtins::compat;  # Loads all new builtins into lexical scope
+  use builtins::compat;  # Loads all new builtins
   
   # So now we can write...
-  if (reftype($x) eq 'ARRAY' || blessed($x) {
+  if ( reftype($x) eq 'ARRAY' || blessed($x) ) {
       print refaddr($x), "\n";
-      if (is_weak($x)) {
+      if ( is_weak($x) ) {
           unweaken($x);
-          print ceil( refaddr(($x)) / floor($y) ), "\n";
+          print ceil( refaddr($x) / floor($y) ), "\n";
           weaken($x);
           print trim($description), "\n";
       }
