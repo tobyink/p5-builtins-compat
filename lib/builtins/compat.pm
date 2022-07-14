@@ -22,7 +22,10 @@ BEGIN {
 sub import {
 	goto \&import_compat if LEGACY_PERL;
 
+	# uncoverable statement
 	'warnings'->unimport('experimental::builtin');
+
+	# uncoverable statement
 	'builtin'->import( qw<
 		true false is_bool
 		weaken unweaken is_weak
